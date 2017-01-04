@@ -111,7 +111,11 @@ static NSDictionary *_luanchOptions=nil;
     NSLog(@"[XGPushPlugin] receive notification: %@", notification);
     
     //推送反馈(app运行时)
-    [XGPush handleReceiveNotification:notification.object];
+    [XGPush handleReceiveNotification:notification.object successCallback:^{
+        NSLog(@"[ZWUser] Handle launching success");
+    } errorCallback:^{
+        NSLog(@"[ZWUser] Handle launching error");
+    }];
     
     [self sendMessage:@"message" data:notification.object];
 }
@@ -164,7 +168,11 @@ static NSDictionary *_luanchOptions=nil;
     
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
-        [XGPush setAccount:account];
+        [XGPush setAccount:account successCallback:^{
+            NSLog(@"[ZWUser] Handle launching success");
+        } errorCallback:^{
+            NSLog(@"[ZWUser] Handle launching error");
+        }];
     }
     
     // FIXME: 放到 background thread 里运行时无法执行回调
