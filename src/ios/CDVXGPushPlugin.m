@@ -2,6 +2,16 @@
 #import "XGPush.h"
 #import "XGSetting.h"
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+#import <UserNotifications/UserNotifications.h>
+@interface CDVXGPushPlugin() <UNUserNotificationCenterDelegate>
+@end
+#endif
+
+@interface CDVXGPushPlugin ()
+
+@end
 
 static NSDictionary *_luanchOptions=nil;
 
@@ -101,7 +111,12 @@ static NSDictionary *_luanchOptions=nil;
     NSLog(@"[XGPushPlugin] receive notification: %@", notification);
     
     //推送反馈(app运行时)
-    [XGPush handleReceiveNotification:notification.object];
+    [XGPush handleReceiveNotification:notification.object
+                      successCallback:^{
+                          NSLog(@"[XGPushPlugin] Handle receive success");
+                      } errorCallback:^{
+                          NSLog(@"[XGPushPlugin] Handle receive error");
+                      }];
     
     [self sendMessage:@"message" data:notification.object];
 }
@@ -116,7 +131,7 @@ static NSDictionary *_luanchOptions=nil;
     [XGPush startApp:assessId appKey:accessKey];
     
     [XGPush isPushOn:^(BOOL isPushOn) {
-        NSLog(@"[ZWUser] Push Is %@", isPushOn ? @"ON" : @"OFF");
+        NSLog(@"[XGPushPlugin] Push Is %@", isPushOn ? @"ON" : @"OFF");
     }];
     
     [self registerAPNS];
@@ -154,7 +169,12 @@ static NSDictionary *_luanchOptions=nil;
     
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
-        [XGPush setAccount:account];
+        [XGPush setAccount:account
+           successCallback:^{
+               NSLog(@"[XGPushPlugin] account set success");
+           } errorCallback:^{
+               NSLog(@"[XGPushPlugin] account set error");
+           }];
     }
     
     // FIXME: 放到 background thread 里运行时无法执行回调

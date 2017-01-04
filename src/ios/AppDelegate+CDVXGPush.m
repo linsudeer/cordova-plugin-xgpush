@@ -26,7 +26,11 @@
 -(void)applicationDidLaunch:(NSNotification *)notification{
     
     if (notification) {
-        [XGPush handleLaunching: notification.userInfo];
+        [XGPush handleLaunching:notification.userInfo successCallback:^{
+            NSLog(@"[ZWUser] Handle launching success");
+        } errorCallback:^{
+            NSLog(@"[ZWUser] Handle launching error");
+        }];
         [CDVXGPushPlugin setLaunchOptions:notification.userInfo];
     }
 }
@@ -34,7 +38,12 @@
 
 - (void) application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
     NSLog(@"[AppDelegate] receive remote notification");
-    [XGPush handleReceiveNotification:userInfo];
+    [XGPush handleReceiveNotification:userInfo
+                      successCallback:^{
+                          NSLog(@"[ZWUser] Handle receive success");
+                      } errorCallback:^{
+                          NSLog(@"[ZWUser] Handle receive error");
+                      }];
     [[NSNotificationCenter defaultCenter] postNotificationName: kXGPushPluginReceiveNotification object:userInfo];
 }
 
@@ -45,7 +54,8 @@
     NSLog(@"[AppDelegate] receive local notification");
     
     //notification是发送推送时传入的字典信息
-    [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"];
+    [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"
+     ];
     
     //删除推送列表中的这一条
     [XGPush delLocalNotification:notification];
