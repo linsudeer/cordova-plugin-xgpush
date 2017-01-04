@@ -27,9 +27,9 @@
     
     if (notification) {
         [XGPush handleLaunching: notification.userInfo successCallback:^{
-            NSLog(@"[ZWUser] Handle launching success");
+            NSLog(@"success");
         } errorCallback:^{
-            NSLog(@"[ZWUser] Handle launching error");
+            NSLog(@"error");
         }];
         [CDVXGPushPlugin setLaunchOptions:notification.userInfo];
     }
@@ -39,9 +39,9 @@
 - (void) application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
     NSLog(@"[AppDelegate] receive remote notification");
     [XGPush handleReceiveNotification:userInfo successCallback:^{
-        NSLog(@"[ZWUser] Handle launching success");
+        NSLog(@"receive remote notification success");
     } errorCallback:^{
-        NSLog(@"[ZWUser] Handle launching error");
+        NSLog(@"receive remote notification error");
     }];
     [[NSNotificationCenter defaultCenter] postNotificationName: kXGPushPluginReceiveNotification object:userInfo];
 }

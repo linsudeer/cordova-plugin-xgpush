@@ -112,9 +112,9 @@ static NSDictionary *_luanchOptions=nil;
     
     //推送反馈(app运行时)
     [XGPush handleReceiveNotification:notification.object successCallback:^{
-        NSLog(@"[ZWUser] Handle launching success");
+        NSLog(@"receive notification success");
     } errorCallback:^{
-        NSLog(@"[ZWUser] Handle launching error");
+        NSLog(@"receive notification error");
     }];
     
     [self sendMessage:@"message" data:notification.object];
@@ -130,7 +130,7 @@ static NSDictionary *_luanchOptions=nil;
     [XGPush startApp:assessId appKey:accessKey];
     
     [XGPush isPushOn:^(BOOL isPushOn) {
-        NSLog(@"[ZWUser] Push Is %@", isPushOn ? @"ON" : @"OFF");
+        NSLog(@"Push Is %@", isPushOn ? @"ON" : @"OFF");
     }];
     
     [self registerAPNS];
@@ -169,9 +169,9 @@ static NSDictionary *_luanchOptions=nil;
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
         [XGPush setAccount:account successCallback:^{
-            NSLog(@"[ZWUser] Handle launching success");
+            NSLog(@"registerPush success");
         } errorCallback:^{
-            NSLog(@"[ZWUser] Handle launching error");
+            NSLog(@"registerPush error");
         }];
     }
     
