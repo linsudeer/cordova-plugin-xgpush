@@ -107,7 +107,7 @@
     <header-file src="src/ios/CDVXGPushPlugin.h" />
     <source-file src="src/ios/CDVXGPushPlugin.m" />
     <!-- Dependencies -->
-    <framework src="libz.tdb" />
+    <framework src="libz.tbd" />
     <framework src="SystemConfiguration.framework" />
     <framework src="CoreTelephony.framework" />
     <framework src="UserNotifications.framework" />
