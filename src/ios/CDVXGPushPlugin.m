@@ -111,12 +111,7 @@ static NSDictionary *_luanchOptions=nil;
     NSLog(@"[XGPushPlugin] receive notification: %@", notification);
     
     //推送反馈(app运行时)
-    [XGPush handleReceiveNotification:notification.object
-                      successCallback:^{
-                          NSLog(@"[XGPushPlugin] Handle receive success");
-                      } errorCallback:^{
-                          NSLog(@"[XGPushPlugin] Handle receive error");
-                      }];
+    [XGPush handleReceiveNotification:notification.object];
     
     [self sendMessage:@"message" data:notification.object];
 }
@@ -131,7 +126,7 @@ static NSDictionary *_luanchOptions=nil;
     [XGPush startApp:assessId appKey:accessKey];
     
     [XGPush isPushOn:^(BOOL isPushOn) {
-        NSLog(@"[XGPushPlugin] Push Is %@", isPushOn ? @"ON" : @"OFF");
+        NSLog(@"[ZWUser] Push Is %@", isPushOn ? @"ON" : @"OFF");
     }];
     
     [self registerAPNS];
@@ -169,16 +164,11 @@ static NSDictionary *_luanchOptions=nil;
     
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
-        [XGPush setAccount:account
-           successCallback:^{
-               NSLog(@"[XGPushPlugin] account set success");
-           } errorCallback:^{
-               NSLog(@"[XGPushPlugin] account set error");
-           }];
+        [XGPush setAccount:account];
     }
     
     // FIXME: 放到 background thread 里运行时无法执行回调
-    NSString * result = [XGPush registerDevice:self.deviceToken successCallback:^{
+    NSString * result = [XGPush registerDevice:self.deviceToken account:@"lsl" successCallback:^{
         // 成功
         NSLog(@"[XGPushPlugin] registerPush success");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
