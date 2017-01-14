@@ -176,7 +176,7 @@ static NSDictionary *_luanchOptions=nil;
     }
     
     // FIXME: 放到 background thread 里运行时无法执行回调
-    NSString * result = [XGPush registerDevice:self.deviceToken account:@"lsl" successCallback:^{
+    NSString * result = [XGPush registerDevice:self.deviceToken successCallback:^{
         // 成功
         NSLog(@"[XGPushPlugin] registerPush success");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
